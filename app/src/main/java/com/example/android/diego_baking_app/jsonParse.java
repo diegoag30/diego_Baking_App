@@ -11,9 +11,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonParse {
+public class jsonParse {
 
-    public static List<Recipe>RecipeParser(String jsonString){
+    public static ArrayList<Recipe>RecipeParser(String jsonString){
         try {
             JSONArray initArray = new JSONArray(jsonString);
             ArrayList<Recipe>recipesList = new ArrayList<Recipe>();
@@ -27,7 +27,7 @@ public class JsonParse {
                 JSONObject rawData = initArray.getJSONObject(i);
                 int recipeId = rawData.getInt("id");
                 String recipeName = rawData.getString("name");
-                int recipeImage = rawData.getInt("image");
+                String recipeImage = rawData.getString("image");
                 JSONArray ingredientsArray = rawData.getJSONArray("ingredients");
                 JSONArray stepsArray = rawData.getJSONArray("steps");
 

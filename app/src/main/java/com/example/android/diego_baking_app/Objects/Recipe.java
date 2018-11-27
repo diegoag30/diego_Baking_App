@@ -9,11 +9,11 @@ import java.util.List;
 public class Recipe {
     private int id;
     private String recipeName;
-    private int cardImage;
+    private String cardImage;
     private ArrayList<Ingredients> ingredients;
     private ArrayList<Steps> steps;
 
-    public Recipe( int id,String recipeName, int cardImage,
+    public Recipe( int id,String recipeName, String cardImage,
                    ArrayList<Ingredients>ingredients, ArrayList<Steps>steps){
         this.id = id;
         this.recipeName = recipeName;
@@ -38,15 +38,15 @@ public class Recipe {
         this.recipeName = recipeName;
     }
 
-    public int getCardImage() {
+    public String getCardImage() {
         return cardImage;
     }
 
-    public void setCardImage(int cardImage) {
+    public void setCardImage(String cardImage) {
         this.cardImage = cardImage;
     }
 
-    public List<Ingredients> getIngredients() {
+    public ArrayList<Ingredients> getIngredients() {
         return ingredients;
     }
 
@@ -54,7 +54,7 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    public List<Steps> getSteps() {
+    public ArrayList<Steps> getSteps() {
         return steps;
     }
 
