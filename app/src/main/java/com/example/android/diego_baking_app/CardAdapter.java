@@ -4,15 +4,18 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.diego_baking_app.Objects.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder>{
 
@@ -23,13 +26,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     CardViewHolder(View itemView) {
         super(itemView);
-        recipe_cv = (CardView)itemView.findViewById(R.id.recipe_card_view);
+        /*recipe_cv = (CardView)itemView.findViewById(R.id.recipe_card_view);*/
         recipe_title = (TextView)itemView.findViewById(R.id.recipe_title_tv);
         recipe_imageView = (ImageView) itemView.findViewById(R.id.card_image);
         }
     }
 
-    ArrayList<Recipe> recipes;
+    private ArrayList<Recipe> recipes;
 
     public CardAdapter(ArrayList<Recipe> recipes){
         this.recipes = recipes;
@@ -38,16 +41,40 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @NonNull
     @Override
     public CardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return null;
+        Context context = viewGroup.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+
+        View recipeView = inflater.inflate(R.layout.card_views,viewGroup,false);
+
+        CardViewHolder cardViewHolder = new CardViewHolder(recipeView);
+        return cardViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder cardViewHolder, int i) {
+        Recipe recipe = recipes.get(i);
+
+        //Title binding
+        TextView recipeTitle = cardViewHolder.recipe_title;
+        recipeTitle.setText(recipe.getRecipeName());
+
+        //Image binding
+        ImageView recipeImage = cardViewHolder.recipe_imageView;
+        String checkImage = recipe.getCardImage();
+
+        //If the images is null we set a default image.
+        if(!checkImage.equals("")){
+            Picasso.with(cardViewHolder.recipe_imageView.getContext())
+                    .load(checkImage)
+                    .into(recipeImage);
+        } else {
+            recipeImage.setImageResource(R.drawable.unavailable_image);
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return recipes.size();
     }
 }
