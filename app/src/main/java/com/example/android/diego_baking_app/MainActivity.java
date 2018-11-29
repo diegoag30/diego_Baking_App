@@ -1,5 +1,9 @@
 package com.example.android.diego_baking_app;
 
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +16,7 @@ import com.example.android.diego_baking_app.Objects.Recipe;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -24,12 +29,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView main_tv;
     RecyclerView main_rv;
     ProgressBar centerProgressBar;
+    public final String ADAPTER_POSITION = "ADAPTER_POSITION";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         main_rv = (RecyclerView)findViewById(R.id.main_recyclerview);
+        main_rv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         centerProgressBar = (ProgressBar) findViewById(R.id.center_progressbar);
         cardRequest();
     }
@@ -43,12 +50,13 @@ public class MainActivity extends AppCompatActivity {
                     .build();
             myClient.newCall(myRequest).enqueue(new Callback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     e.printStackTrace();
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    assert response.body() != null;
                     final String myResponse = response.body().string();
                     if(!response.isSuccessful()) {
                         throw new IOException();
@@ -64,14 +72,31 @@ public class MainActivity extends AppCompatActivity {
                             CardAdapter cardAdapter = new CardAdapter(recipesItems);
                             centerProgressBar.setVisibility(View.GONE);
                             main_rv.setAdapter(cardAdapter);
-                            main_rv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
                             main_rv.setVisibility(View.VISIBLE);
-/*                            assert recipesItems != null;
-                            main_tv.setText(recipesItems.get(0).getRecipeName());*/
                         }
                     });
                 }
             });
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        RecyclerView.LayoutManager layoutManager = main_rv.getLayoutManager();
+        assert layoutManager != null;
+        outState.putParcelable(ADAPTER_POSITION,main_rv.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState!= null){
+            Parcelable savedAdapterState = savedInstanceState.getParcelable(ADAPTER_POSITION);
+            RecyclerView.LayoutManager layoutManager = main_rv.getLayoutManager();
+            assert layoutManager != null;
+            layoutManager.onRestoreInstanceState(savedAdapterState);
+        }
     }
 }

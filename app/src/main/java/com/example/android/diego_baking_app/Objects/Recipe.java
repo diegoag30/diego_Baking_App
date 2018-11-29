@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Recipe {
+public class Recipe implements Parcelable {
     private int id;
     private String recipeName;
     private String cardImage;
@@ -62,4 +62,34 @@ public class Recipe {
         this.steps = steps;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(recipeName);
+        parcel.writeString(cardImage);
+        parcel.writeTypedList(ingredients);
+        parcel.writeTypedList(steps);
+    }
+
+    protected Recipe(Parcel parcelItem){
+        this.id = parcelItem.readInt();
+        this.recipeName = parcelItem.readString();
+        this.cardImage = parcelItem.readString();
+        parcelItem.readTypedList(this.ingredients,Ingredients.CREATOR);
+        parcelItem.readTypedList(this.steps,Steps.CREATOR);
+    }
+
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        public Recipe createFromParcel(Parcel source) {
+            return new Recipe(source);
+        }
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 }
