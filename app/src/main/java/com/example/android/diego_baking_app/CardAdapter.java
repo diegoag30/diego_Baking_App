@@ -1,6 +1,7 @@
 package com.example.android.diego_baking_app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -52,7 +53,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder cardViewHolder, int i) {
-        Recipe recipe = recipes.get(i);
+        final Recipe recipe = recipes.get(i);
 
         //Title binding
         TextView recipeTitle = cardViewHolder.recipe_title;
@@ -70,7 +71,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         } else {
             recipeImage.setImageResource(R.drawable.unavailable_image);
         }
-
+        cardViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(),DetailActivity.class);
+                intent.putExtra("card",recipe);
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         main_rv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         centerProgressBar = (ProgressBar) findViewById(R.id.center_progressbar);
         cardRequest();
+
     }
 
     public void cardRequest(){

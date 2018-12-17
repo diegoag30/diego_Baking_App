@@ -10,8 +10,8 @@ public class Recipe implements Parcelable {
     private int id;
     private String recipeName;
     private String cardImage;
-    private ArrayList<Ingredients> ingredients;
-    private ArrayList<Steps> steps;
+    private ArrayList<Ingredients> ingredients = new ArrayList<>();
+    private ArrayList<Steps> steps = new ArrayList<>();
 
     public Recipe( int id,String recipeName, String cardImage,
                    ArrayList<Ingredients>ingredients, ArrayList<Steps>steps){
@@ -69,11 +69,11 @@ public class Recipe implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(recipeName);
-        parcel.writeString(cardImage);
-        parcel.writeTypedList(ingredients);
-        parcel.writeTypedList(steps);
+        parcel.writeInt(this.id);
+        parcel.writeString(this.recipeName);
+        parcel.writeString(this.cardImage);
+        parcel.writeTypedList(this.ingredients);
+        parcel.writeTypedList(this.steps);
     }
 
     protected Recipe(Parcel parcelItem){
@@ -84,12 +84,17 @@ public class Recipe implements Parcelable {
         parcelItem.readTypedList(this.steps,Steps.CREATOR);
     }
 
-    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
-        public Recipe createFromParcel(Parcel source) {
-            return new Recipe(source);
+    public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
+
+
+        @Override
+        public Recipe createFromParcel(Parcel parcel) {
+            return new Recipe(parcel);
         }
-        public Recipe[] newArray(int size) {
-            return new Recipe[size];
+
+        @Override
+        public Recipe[] newArray(int i) {
+            return new Recipe[0];
         }
     };
 }
