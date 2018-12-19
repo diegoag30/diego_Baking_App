@@ -41,6 +41,7 @@ public class Ingredients implements Parcelable {
         this.ingredient = ingredient;
     }
 
+
     //Parcelable methods and overrides
     @Override
     public int describeContents() {
