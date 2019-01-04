@@ -5,12 +5,14 @@ import android.os.Parcelable;
 
 public class Steps implements Parcelable {
     private int id;
+    private String shortDescription;
     private String description;
     private String videoUrl;
     private String thumbnailUrl;
 
-    public Steps(int id, String description, String videoUrl, String thumbnailUrl){
+    public Steps(int id, String shortDescription, String description, String videoUrl, String thumbnailUrl){
         this.id = id;
+        this.shortDescription = shortDescription;
         this.description = description;
         this.videoUrl = videoUrl;
         this.thumbnailUrl = thumbnailUrl;
@@ -25,6 +27,14 @@ public class Steps implements Parcelable {
         this.id = id;
     }
 
+    //Short Description getter and setter
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
 
     //Description getter and setter
     public String getDescription() {
@@ -65,6 +75,7 @@ public class Steps implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
+        parcel.writeString(shortDescription);
         parcel.writeString(description);
         parcel.writeString(videoUrl);
         parcel.writeString(thumbnailUrl);
@@ -72,6 +83,7 @@ public class Steps implements Parcelable {
 
     protected Steps(Parcel parcelItem){
         this.id = parcelItem.readInt();
+        this.shortDescription = parcelItem.readString();
         this.description = parcelItem.readString();
         this.videoUrl = parcelItem.readString();
         this.thumbnailUrl = parcelItem.readString();

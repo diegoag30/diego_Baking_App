@@ -1,15 +1,20 @@
 package com.example.android.diego_baking_app;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.diego_baking_app.Objects.Ingredients;
-import com.example.android.diego_baking_app.Objects.Recipe;
 import com.example.android.diego_baking_app.Objects.Steps;
 
 import java.util.ArrayList;
@@ -18,12 +23,16 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private static final int TYPE_INGREDIENT = 0;
     private static final int TYPE_STEP = 1;
+    public static final String STEP_INSTRUCTION = "STEP_INSTRUCTION";
+    public static final String VIDEO_LINK = "VIDEO_LINK";
+    private Context context;
 
     ArrayList<Ingredients> ingredients;
     ArrayList<Steps>steps;
 
-    public DetailAdapter(ArrayList<Ingredients> ingredients,
+    public DetailAdapter(Context context,ArrayList<Ingredients> ingredients,
                          ArrayList<Steps>steps){
+        this.context = context;
         this.ingredients = ingredients;
         this.steps = steps;
     }
@@ -49,15 +58,41 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
         if(viewHolder instanceof VHIngredients ){
-            VHIngredients VHingredients = (VHIngredients)viewHolder;
+            final VHIngredients VHingredients = (VHIngredients)viewHolder;
             VHingredients.ingredients_tv.setText(ingredientsList());
+            VHingredients.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast toast = Toast.makeText(view.getContext(),"You clicked Ingredients",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            });
         }
         else if (viewHolder instanceof VHSteps){
-            Steps currentStep = getStep(i-1);
+            final Steps currentStep = getStep(i-1);
             VHSteps VHsteps = (VHSteps)viewHolder;
-            VHsteps.steps_tv.setText(currentStep.getDescription());
+            VHsteps.steps_tv.setText(currentStep.getShortDescription());
+            VHsteps.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast toast = Toast.makeText(view.getContext(),"You clicked Steps",Toast.LENGTH_SHORT);
+                    toast.show();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(STEP_INSTRUCTION,currentStep.getDescription());
+                    bundle.putString(VIDEO_LINK,currentStep.getVideoUrl());
+                    Intent intent = new Intent(view.getContext(),StepDetail.class);
+                    intent.putExtras(bundle);
+                    view.getContext().startActivity(intent);
+
+/*                    StepFragment stepFragment = new StepFragment();
+                    FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
+                    manager.beginTransaction().
+                            replace(R.id.frame_container,stepFragment)
+                            .commit();*/
+                }
+            });
         }
     }
 

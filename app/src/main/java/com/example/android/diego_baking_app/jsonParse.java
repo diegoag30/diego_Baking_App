@@ -47,10 +47,12 @@ public class jsonParse {
                     JSONObject currentStep = stepsArray.getJSONObject(iii);
 
                     int stepId = currentStep.getInt("id");
+                    String stepShortDescription = currentStep.getString("shortDescription");
                     String stepDescription = currentStep.getString("description");
                     String stepVideoUrl = currentStep.getString("videoURL");
                     String stepThumbnailUrl = currentStep.getString("thumbnailURL");
-                    Steps stepsObject = new Steps(stepId,stepDescription,stepVideoUrl,stepThumbnailUrl);
+                    Steps stepsObject = new Steps(stepId,stepShortDescription,
+                            stepDescription,stepVideoUrl,stepThumbnailUrl);
                     steps.add(stepsObject);
                 }
                 Recipe recipes = new Recipe(recipeId,recipeName,recipeImage,ingredients,steps);

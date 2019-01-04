@@ -8,6 +8,10 @@
         android:id="@+id/steps_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Steps"/>
+        android:gravity="center_horizontal"
+        android:text="Steps"
+        android:textStyle="italic"
+        android:padding="10sp"
+        android:background="@drawable/border_tv"/>
 
 </LinearLayout>
