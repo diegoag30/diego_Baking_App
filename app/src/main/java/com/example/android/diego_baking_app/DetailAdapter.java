@@ -77,20 +77,12 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             VHsteps.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast toast = Toast.makeText(view.getContext(),"You clicked Steps",Toast.LENGTH_SHORT);
-                    toast.show();
                     Bundle bundle = new Bundle();
                     bundle.putString(STEP_INSTRUCTION,currentStep.getDescription());
                     bundle.putString(VIDEO_LINK,currentStep.getVideoUrl());
                     Intent intent = new Intent(view.getContext(),StepDetail.class);
                     intent.putExtras(bundle);
                     view.getContext().startActivity(intent);
-
-/*                    StepFragment stepFragment = new StepFragment();
-                    FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
-                    manager.beginTransaction().
-                            replace(R.id.frame_container,stepFragment)
-                            .commit();*/
                 }
             });
         }

@@ -25,6 +25,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
@@ -60,24 +61,31 @@ public class ExoPlayerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_exo_player, container, false);
         exoPlayerView = rootView.findViewById(R.id.exoplayer_view);
+        if (getArguments() != null) {
+            String videoLink = getArguments().getString("VIDEO_LINK");
+            playVideo(videoLink,listener);
+        }
         return rootView;
     }
-    public void playVideo(String videoLink){
+    public void playVideo(String videoLink, Context context){
         TrackSelector trackSelector = new DefaultTrackSelector();
         LoadControl loadControl = new DefaultLoadControl();
-        SimpleExoPlayer player = ExoPlayerFactory.newSimpleInstance(listener,trackSelector);
+        SimpleExoPlayer player = ExoPlayerFactory.newSimpleInstance(context,trackSelector);
         exoPlayerView.setPlayer(player);
 
         //Handling the media source
-        String user = Util.getUserAgent(listener,"diego_Baking_App");
-        MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(videoLink),new DefaultDataSourceFactory(listener,user),
-                new DefaultExtractorsFactory(),null,null);
+        String user = Util.getUserAgent(context,"diego_Baking_App");
+        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,user);
+        MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(videoLink));
         player.prepare(mediaSource);
         player.setPlayWhenReady(true);
     }
+
+
 
 
     @Override
@@ -95,6 +103,12 @@ public class ExoPlayerFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         listener = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        exoPlayerView.getPlayer().release();
     }
 
     /**
