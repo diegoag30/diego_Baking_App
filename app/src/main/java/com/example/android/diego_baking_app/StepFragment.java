@@ -28,6 +28,7 @@ public class StepFragment extends Fragment {
     private String main_instruction;
 
 
+
     public StepFragment() {
         // Required empty public constructor
     }
@@ -49,6 +50,7 @@ public class StepFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_step, container, false);
         main_tv= rootView.findViewById(R.id.fragment_tv);
+
         main_tv.setText(main_instruction);
         return rootView;
     }

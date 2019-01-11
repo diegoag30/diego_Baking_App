@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.android.diego_baking_app.Objects.ExoPlayerFragment;
 import com.example.android.diego_baking_app.Objects.Recipe;
+import com.google.android.exoplayer2.Player;
 
 public class DetailActivity extends AppCompatActivity {
     RecyclerView detail_rv;
@@ -28,4 +30,6 @@ public class DetailActivity extends AppCompatActivity {
         detail_rv.setLayoutManager(linearLM);
         detail_rv.setAdapter(dAdapter);
     }
+
+
 }
