@@ -1,8 +1,10 @@
 package com.example.android.diego_baking_app;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.diego_baking_app.Objects.Recipe;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView main_rv;
     ProgressBar centerProgressBar;
     public final String ADAPTER_POSITION = "ADAPTER_POSITION";
+    public static final String RECIPES_LIST = "RECIPES_LIST";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

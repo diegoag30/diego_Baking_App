@@ -3,6 +3,8 @@ package com.example.android.diego_baking_app.Objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Ingredients implements Parcelable {
     private int quantity;
     private String measure;
@@ -40,6 +42,7 @@ public class Ingredients implements Parcelable {
     public void setIngredient(String ingredient) {
         this.ingredient = ingredient;
     }
+
 
 
     //Parcelable methods and overrides
