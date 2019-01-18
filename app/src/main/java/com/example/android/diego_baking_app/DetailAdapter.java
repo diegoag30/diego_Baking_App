@@ -37,7 +37,6 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private ArrayList<Ingredients> ingredients;
     private ArrayList<Steps>steps;
-    private SharedPreferences sharedPreferences;
     public ArrayList<String> ingredientsArrayList;
 
     public DetailAdapter(Context context,ArrayList<Ingredients> ingredients,
@@ -45,7 +44,6 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
         this.ingredients = ingredients;
         this.steps = steps;
-        sharedPreferences = context.getSharedPreferences(RECIPE_INGREDIENTS,Context.MODE_PRIVATE);
     }
 
     @NonNull

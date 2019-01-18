@@ -2,6 +2,8 @@ package com.example.android.diego_baking_app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.diego_baking_app.Objects.Recipe;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -76,6 +79,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),DetailActivity.class);
                 intent.putExtra("card",recipe);
+                SharedPreferences sPreferences = PreferenceManager.getDefaultSharedPreferences
+                        (view.getContext().getApplicationContext());
+                SharedPreferences.Editor editor = sPreferences.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(recipe);
+                editor.putString("RECIPE",json);
+                editor.commit();
                 view.getContext().startActivity(intent);
             }
         });

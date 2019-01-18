@@ -7,17 +7,11 @@
     android:orientation="vertical"
     tools:context=".DetailActivity">
 
-    <FrameLayout
-        android:id="@+id/frame_container"
+    <fragment
+        android:name="com.example.android.diego_baking_app.DetailFragment"
+        android:id="@+id/detail_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/detail_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
-    </FrameLayout>
+        android:layout_height="match_parent"/>
 
 
 </LinearLayout>

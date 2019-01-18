@@ -23,23 +23,27 @@ import java.util.ArrayList;
 public class DetailActivity extends AppCompatActivity {
     RecyclerView detail_rv;
     LinearLayoutManager linearLM;
+    DetailFragment detailMasterFragment;
+    Recipe recipe;
     public static final String RECIPE_INGREDIENTS = "RECIPES_INGREDIENTS";
+    public static final String CURRENT_RECIPE = "CURRENT_RECIPE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        Recipe recipe = getIntent().getParcelableExtra("card");
-        setDetailUi(recipe);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recipe = getIntent().getParcelableExtra("card");
+        detailMasterFragment = new DetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(CURRENT_RECIPE,recipe);
+        detailMasterFragment.setArguments(bundle);
     }
-    public void setDetailUi(Recipe passedRecipe){
-        detail_rv = (RecyclerView)findViewById(R.id.detail_rv);
-        linearLM = new LinearLayoutManager(this);
-        DetailAdapter dAdapter = new DetailAdapter(this,passedRecipe.getIngredients(),
-                passedRecipe.getSteps());
-        detail_rv.setLayoutManager(linearLM);
-        detail_rv.setAdapter(dAdapter);
-    }
+
+
 
 }
